@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto School</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1A1A1A;
+            color: #FFFFFF;
+        }
+
+        header {
+            background-color: #292929;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header img {
+            max-width: 20%;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav ul li a:hover {
+            color: #FFAB40;
+        }
+
+        #hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: #212121;
+            margin-bottom: 2rem;
+        }
+
+        #hero h1, #hero p {
+            margin-bottom: 1rem;
+        }
+
+        #hero button {
+            padding: 1.2rem 2.5rem; /* Increased padding for larger size */
+            background-color: #FFAB40;
+            color: #FFFFFF;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background-color 0.3s ease;
+        }
+
+        #hero button:hover {
+            background-color: #FF9100;
+        }
+
+        #courses {
+            padding: 2rem;
+            background: #1A1A1A;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .course {
+            width: 30%;
+            border: 1px solid #333333;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            background-color: #333333;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .course:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .course h3 {
+            margin-bottom: 0.5rem;
+            color: #FFAB40;
+        }
+
+        .course p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: #FFFFFF;
+        }
+
+        .course .skill-level {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #FFAB40;
+            color: #FFFFFF;
+            padding: 0.3rem 0.5rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border-radius: 3px;
+        }
+
+        .course .course-image {
+            width: 100%;
+            height: 200px; /* Adjust height as needed */
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 1rem;
+        }
+
+        .course .sign-up-button {
+            padding: 1rem 2.5rem; /* Larger size for Sign Up button */
+            background-color: #FF6F00; /* Different color matching theme */
+            color: #FFFFFF;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold; /* Bold font weight */
+        }
+
+        .course .sign-up-button:hover {
+            background-color: #FF9100;
+        }
+
+        footer {
+            background-color: #292929;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 1rem 0;
+            clear: both;
+            position: relative;
+        }
+
+        footer .social-icons {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        footer .social-icons a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #FFFFFF;
+            font-size: 1.2rem;
+        }
+
+        footer .social-icons a:hover {
+            color: #FFAB40;
+        }
+
+        @media (max-width: 768px) {
+            .course {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://i.ibb.co/25dKvC4/Picsart-24-06-19-22-01-48-034.png" alt="Crypto School Logo">
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Articles</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="hero">
+            <h1>Welcome to BitBoy Crypto School</h1>
+            <p>Become a crypto trading pro.</p>
+            <button onclick="enrollNow()">Enroll Now</button>
+        </section>
+        <section id="courses">
+            <div class="course">
+                <div class="course-image" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe-beIhzydEI2BzHCy8upjy0_Gt17X8sZV2rsNOXiLupBV4VhYxMhIzFQ&s=10');"></div>
+                <div class="skill-level">Beginner</div>
+                <h3>Trading Made Simple</h3>
+                <p>Learn to master trading and grow your portfolio with over 50+ video lessons and weekly interactive LIVE workshops with Sheldon The Sniper and his trading team.</p>
+                <button class="sign-up-button" onclick="redirectToSignUp()">Sign Up</button>
+            </div>
+            <div class="course">
+                <div class="course-image" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLE-bovs8JTOGp6Swo7W8syxW2qVkDtZuHhuPOeF4bhD_ZorZ_VsUrdGp0&s=10');"></div>
+                <div class="skill-level">Intermediate</div>
+                <h3>Level up your portfolio</h3>
+                <p>Trade confidently with strategies tailored to your goals, advanced risk management, and a clear understanding of risk vs. reward and position sizing. Learn with Ben Armstrong.</p>
+                <button class="sign-up-button" onclick="redirectToSignUp()">Sign Up</button>
+            </div>
+            <div class="course">
+                <div class="course-image" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOhysYJWFiNzFxkGr6SiiTEs6tpCLPAEglIQ&usqp=CAU');"></div>
+                <div class="skill-level">Expert</div>
+                <h3>Trading Strategies</h3>
+                <p>Discover advanced trading strategies to maximize your profits in the cryptocurrency market. Master trader Ben Armstrong offers a life-changing course, helping you make gains through a bulletproof system. Beat Wall Street at its own game, trading on data instead of emotion.</p>
+                <button class="sign-up-button" onclick="redirectToSignUp()">Sign Up</button>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Crypto School. All rights reserved.</p>
+        <div class="social-icons">
+            <a href="#"><i class="fa fa-instagram"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+        </div>
+    </footer>
+    <script>
+        function enrollNow() {
+            alert('Thank you for your interest! Enrollment opens soon.');
+        }
+
+        function redirectToSignUp() {
+            // Replace with actual URL where sign up page exists
+            window.location.href = 'signup.html';
+        }
+    </script>
+</body>
+</html>
