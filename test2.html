@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Payment Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            background-color: #1f1f1f;
+            padding: 15px 0;
+            color: white;
+            text-align: center;
+            font-size: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header img {
+            width: 50px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .container {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            margin-top: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #b0b0b0;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #333;
+            color: #e0e0e0;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #28a745;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #payment-details {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #qrcode {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #qrcode img {
+            width: 128px;
+            height: 128px;
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .wallet-address, .crypto-amount {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #2c2c2c;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .wallet-address:hover, .crypto-amount:hover {
+            background-color: #333;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .copy-icon.copied {
+            animation: none;
+            border: none;
+            font-size: 20px;
+            color: #28a745;
+        }
+
+        .copy-message {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #28a745;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .show-message {
+            opacity: 1;
+        }
+
+        #countdown {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #b0b0b0;
+        }
+
+        .confirmations {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #b0b0b0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .confirmations .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-top: 2px solid #28a745;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="logo.png" alt="Logo"> Crypto Payment Platform
+    </div>
+    <div class="container">
+        <h1>Crypto Payment Form</h1>
+        <form id="payment-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Your Email" required>
+
+            <label for="amount">Amount (USD):</label>
+            <input type="text" id="amount" name="amount" value="$100" readonly>
+
+            <label for="payment-coin">Select Payment Coin:</label>
+            <select id="payment-coin" name="payment-coin" required>
+                <option value="btc">Bitcoin (BTC)</option>
+                <option value="usdt-erc20">Tether (USDT - ERC20)</option>
+                <option value="usdt-trc20">Tether (USDT - TRC20)</option>
+                <option value="bnb-erc20">Binance Coin (BNB - ERC20)</option>
+                <option value="bnb-bep20">Binance Coin (BNB - BEP20)</option>
+            </select>
+
+            <button type="button" id="generate-payment">Generate Payment Details</button>
+        </form>
+        <div id="payment-details" class="hidden">
+            <p id="payment-message"></p>
+            <div id="crypto-amount" class="crypto-amount">
+                <span id="crypto-amount-text"></span>
+                <span class="copy-icon spinner" id="copy-amount-icon"></span>
+            </div>
+            <p id="copy-amount-message" class="copy-message">Amount copied!</p>
+            <div id="btc-address" class="wallet-address">
+                <span id="address-text"></span>
+                <span class="copy-icon spinner" id="copy-icon"></span>
+            </div>
+            <p id="copy-message" class="copy-message">Wallet address copied!</p>
+            <div id="qrcode">
+                <img id="qr-btc" src="btc.png" alt="BTC QR Code">
+                <img id="qr-usdt-erc20" src="usdt-erc20.png" alt="USDT ERC20 QR Code">
+                <img id="qr-usdt-trc20" src="usdt-trc20.png" alt="USDT TRC20 QR Code">
+                <img id="qr-bnb-erc20" src="bnb-erc20.png" alt="BNB ERC20 QR Code">
+                <img id="qr-bnb-bep20" src="bnb-bep20.png" alt="BNB BEP20 QR Code">
+            </div>
+            <p id="countdown"></p>
+            <div class="confirmations">
+                <span>Confirmations: 0 from 1</span>
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let countdownInterval;
+
+        async function fetchExchangeRates() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,binancecoin,tether&vs_currencies=usd');
+                const data = await response.json();
+                return {
+                    btc: data.bitcoin.usd,
+                    usdt: data.tether.usd,
+                    bnb: data.binancecoin.usd
+                };
+            } catch (error) {
+                console.error('Error fetching exchange rates:', error);
+                return null;
+            }
+        }
+
+        document.getElementById('generate-payment').addEventListener('click', async function() {
+            
+            const paymentCoin = document.getElementById('payment-coin').value;
+            const amountUSD = 100; // Fixed amount in USD
+
+            const exchangeRates = await fetchExchangeRates();
+
+            if (!exchangeRates) {
+                alert('Unable to fetch exchange rates. Please try again later.');
+                return;
+            }
+
+            // Clear any existing countdown interval
+            clearInterval(countdownInterval);
+
+            // Hide all QR codes initially
+            const qrCodes = document.querySelectorAll('#qrcode img');
+            qrCodes.forEach(qr => qr.style.display = 'none');
+
+            let paymentMessage, btcAddress, cryptoAmount;
+
+            switch (paymentCoin) {
+                case 'btc':
+                    btcAddress = '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa';
+                    paymentMessage = 'Please send the equivalent of $100 in BTC to the following address:';
+                    cryptoAmount = amountUSD / exchangeRates.btc;
+                    document.getElementById('qr-btc').style.display = 'block';
+                    break;
+                case 'usdt-erc20':
+                    btcAddress = '0xYourERC20USDTAddress';
+                    paymentMessage = 'Please send the equivalent of $100 in USDT (ERC20) to the following address:';
+                    cryptoAmount = amountUSD / exchangeRates.usdt;
+                    document.getElementById('qr-usdt-erc20').style.display = 'block';
+                    break;
+                case 'usdt-trc20':
+                    btcAddress = 'TYourTRC20USDTAddress';
+                    paymentMessage = 'Please send the equivalent of $100 in USDT (TRC20) to the following address:';
+                    cryptoAmount = amountUSD / exchangeRates.usdt;
+                    document.getElementById('qr-usdt-trc20').style.display = 'block';
+                    break;
+                case 'bnb-erc20':
+                    btcAddress = '0xYourERC20BNBAddress';
+                    paymentMessage = 'Please send the equivalent of $100 in BNB (ERC20) to the following address:';
+                    cryptoAmount = amountUSD / exchangeRates.bnb;
+                    document.getElementById('qr-bnb-erc20').style.display = 'block';
+                    break;
+                case 'bnb-bep20':
+                    btcAddress = 'YourBEP20BNBAddress';
+                    paymentMessage = 'Please send the equivalent of $100 in BNB (BEP20) to the following address:';
+                    cryptoAmount = amountUSD / exchangeRates.bnb;
+                    document.getElementById('qr-bnb-bep20').style.display = 'block';
+                    break;
+                default:
+                    alert('Please select a valid payment coin.');
+                    return;
+            }
+
+            document.getElementById('payment-message').textContent = paymentMessage;
+            document.getElementById('crypto-amount-text').textContent = `${cryptoAmount.toFixed(4)} ${paymentCoin.toUpperCase()}`;
+            document.getElementById('address-text').textContent = btcAddress;
+            document.getElementById('payment-details').classList.remove('hidden');
+
+            // Start new 20-minute countdown
+            let timeLeft = 20 * 60;
+            const countdownElement = document.getElementById('countdown');
+            countdownElement.textContent = `Time left: ${Math.floor(timeLeft / 60)}m ${timeLeft % 60}s`;
+
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft < 0) {
+                    clearInterval(countdownInterval);
+                    countdownElement.textContent = 'Payment window has expired.';
+                } else {
+                    countdownElement.textContent = `Time left: ${Math.floor(timeLeft / 60)}m ${timeLeft % 60}s`;
+                }
+            }, 1000);
+        });
+
+        document.querySelector('.wallet-address').addEventListener('click', function() {
+            const addressText = document.getElementById('address-text').textContent;
+
+            // Change copy icon to loading spinner
+            const copyIcon = document.getElementById('copy-icon');
+            copyIcon.classList.add('spinner');
+
+            // Copy address to clipboard
+            navigator.clipboard.writeText(addressText).then(() => {
+                setTimeout(() => {
+                    // Change spinner to checkmark after 1 second
+                    copyIcon.classList.remove('spinner');
+                    copyIcon.classList.add('copied');
+                }, 1000);
+
+                // Show the copy message
+                const copyMessage = document.getElementById('copy-message');
+                copyMessage.classList.add('show-message');
+
+                // Hide the message after 5 seconds
+                setTimeout(() => {
+                    copyMessage.classList.remove('show-message');
+                    copyIcon.classList.remove('copied'); // Reset icon state
+                }, 5000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        });
+
+        document.querySelector('.crypto-amount').addEventListener('click', function() {
+            const amountText = document.getElementById('crypto-amount-text').textContent.split(' ')[0];
+
+            // Change copy icon to loading spinner
+            const copyAmountIcon = document.getElementById('copy-amount-icon');
+            copyAmountIcon.classList.add('spinner');
+
+            // Copy amount to clipboard
+            navigator.clipboard.writeText(amountText).then(() => {
+                setTimeout(() => {
+                    // Change spinner to checkmark after 1 second
+                    copyAmountIcon.classList.remove('spinner');
+                    copyAmountIcon.classList.add('copied');
+                }, 1000);
+
+                // Show the copy message
+                const copyAmountMessage = document.getElementById('copy-amount-message');
+                copyAmountMessage.classList.add('show-message');
+
+                // Hide the message after 3 seconds
+                setTimeout(() => {
+                    copyAmountMessage.classList.remove('show-message');
+                    copyAmountIcon.classList.remove('copied'); // Reset icon state
+                }, 3000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        });
+
+        // Fetch and set exchange rates on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            const exchangeRates = await fetchExchangeRates();
+
+            if (!exchangeRates) {
+                alert('Unable to fetch exchange rates. Please try again later.');
+            }
+        });
+    </script>
+</body>
+</html>
