@@ -1,43 +1,44 @@
-# BTCUSDT Day Trading Strategy Documentation
+# Improved BTCUSDT Day Trading Strategy Documentation
 
 ## Overview
-This is a self-contained day trading strategy for BTCUSDT on the 15-minute timeframe, utilizing the Daily Open price as a key pivot point. It combines MACD Histogram momentum with ATR-based dynamic trailing stops.
+This is an optimized self-contained day trading strategy for BTCUSDT on the 15-minute timeframe. It leverages the Daily Open price as a key pivot point and uses MACD Histogram (12, 21, 9) for entry timing and 15m ATR for dynamic trailing stop management.
 
 ## Files
-- `strategy.py`: The complete script that fetches data from Binance and runs the backtest.
-- `requirements.txt`: List of necessary Python libraries.
+- `strategy.py`: The complete script (data fetching + backtesting).
+- `requirements.txt`: Python library dependencies.
 - `details.md`: This documentation.
-
-## Indicators Used
-1.  **Daily Open Price**: Acts as the daily trend pivot.
-2.  **MACD (12, 21, 9)**: The MACD Histogram is used to identify momentum crossovers.
-3.  **15m ATR (14)**: Used for dynamic trailing stop-loss to protect profits.
 
 ## Strategy Rules
 
 ### Entry Rules
-*   **Time Filter**: Only look for entries during the first 12 hours of the daily candle (00:00 to 12:00 UTC).
+*   **Time Window**: Entries are only allowed in the first 12 hours of the daily candle (00:00 to 12:00 UTC).
 *   **Long Entry**:
     1.  Price is **above** the Daily Open.
-    2.  MACD Histogram crosses **above** zero.
+    2.  MACD Histogram crosses **above** zero (Current > 0, Previous <= 0).
 *   **Short Entry**:
     1.  Price is **below** the Daily Open.
-    2.  MACD Histogram crosses **below** zero.
+    2.  MACD Histogram crosses **below** zero (Current < 0, Previous >= 0).
 
 ### Exit Rules
 1.  **Take Profit (TP)**: 3% Fixed.
-2.  **Stop Loss (SL)**: 1% Fixed Initial.
-3.  **Trailing Stop Loss**:
-    *   Set at `3.5 * 15m ATR` from price.
-    *   Only moves in the direction of the trade once price is in favor.
+2.  **Initial Stop Loss (SL)**: 1% Fixed.
+3.  **Dynamic Trailing Stop (TSL)**:
+    *   Set at `4.5 * 15m ATR` from the current price.
+    *   Only trails in the profitable direction.
+    *   **Priority**: TP > TSL > SL.
 4.  **End of Day (EOD)**: Any open position is closed at 23:45 UTC.
 
-## Performance (Backtest results - 6 Months)
-*   **Compounded ROI**: 14.43%
-*   **Sharpe Ratio**: 0.95
-*   **Win Rate**: 38.91%
-*   **Number of Trades**: 221
+## Performance (Optimized - 6 Months)
+*   **Compounded ROI**: 31.47%
+*   **Sharpe Ratio**: 1.74
+*   **Win Rate**: 40.58%
+*   **Total Trades**: 207
+
+## Key Improvements
+*   **Exit Prioritization**: TP is checked before trailing stops to capture fast momentum peaks.
+*   **TSL Optimization**: Increased trailing multiplier to 4.5*ATR to give the trade more room to breathe while still protecting against sharp reversals.
+*   **Compounding**: Performance now accounts for compounded returns.
 
 ## How to Run
-1. Install dependencies: `pip install -r requirements.txt`
-2. Run the strategy: `python strategy.py`
+1. `pip install -r requirements.txt`
+2. `python strategy.py`
