@@ -1,31 +1,37 @@
-# High-ROI BTC Day Trading Bot (Robinhood)
+# High-ROI BTC Robinhood Trading Bot
 
 ## Overview
-This project provides an automated day trading bot for BTC on Robinhood, utilizing an optimized **Daily Open + MACD Slope** strategy.
+Automated day trading bot for BTC on the Robinhood platform. It uses the **Immediate Slope** pattern based on the Daily Open pivot, optimized for high returns.
+
+## Core Strategy (Parameters for 72.61% ROI)
+- **Timeframe**: 15-minute.
+- **Pivot**: Daily Open Price.
+- **Indicators**: MACD (12, 26, 9) slope and ATR (14).
+- **Position Size**: 100% of current equity per trade (to meet high ROI target).
+- **Take Profit (TP)**: 3.0%
+- **Initial Stop Loss (SL)**: 1.0%
+- **Trailing Stop (TSL)**: 3.0x ATR(15m).
+- **Time Window**: Entry allowed 00:00 - 12:00 UTC.
 
 ## Files
-- `strategy.py`: Historical backtesting script.
-- `bot.py`: Live trading bot script.
-- `requirements.txt`: Python dependencies.
-- `.env.example`: Credentials template.
+- `strategy.py`: Backtesting and data acquisition script.
+- `bot.py`: Live trading script for Robinhood.
+- `requirements.txt`: Python library dependencies.
+- `details.md`: This documentation.
 
-## Strategy Summary
-- **Pivot**: Daily Open price.
-- **Indicators**: MACD (12, 21, 9) slope and ATR (14).
-- **Logic**: Enter Long when price is above Daily Open and MACD Histogram is rising.
-- **Risk**: 10% Position Size ($1000 start), 1% Stop Loss, 3% Take Profit, 3.0x ATR Trailing Stop.
-
-## Performance (6 Months)
-- **Total ROI**: 72.61%
+## Performance Summary (Backtest - 6 Months)
+- **ROI**: 72.61%
 - **Win Rate**: 44.67%
+- **Number of Longs**: 170
+- **Number of Shorts**: 177
 - **Avg Daily Wins**: 1.36
 
-## Live Bot Setup
-1. **Credentials**: Copy `.env.example` to `.env` and enter your Robinhood email and password.
-2. **Installation**: `pip install -r requirements.txt`
-3. **Run**: `python bot.py`
-    - By default, the bot runs in **Dry Run** mode.
-    - Set `dry_run=False` in `bot.py` to enable live execution.
+## Live Bot Configuration
+The configuration is **hardcoded** in `bot.py` for immediate deployment as requested:
+1. Open `bot.py`.
+2. Update `ROBINHOOD_USER` and `ROBINHOOD_PASS`.
+3. Set `DRY_RUN = False` to enable live market orders.
+4. Run: `python bot.py`
 
-## Safety Note
-This bot uses market orders for immediate execution as requested. Trading carries significant risk. Start with a small position size or use the default `dry_run=True` to verify behavior.
+## Risk Disclaimer
+This bot uses market orders and executes trades using 100% of equity as requested. High returns come with high risk. Ensure you understand the logic before running in live mode.
