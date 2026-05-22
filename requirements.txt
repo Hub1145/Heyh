@@ -1,0 +1,6 @@
+pandas
+pandas_ta
+ccxt
+numpy
+robin_stocks
+tabulate
