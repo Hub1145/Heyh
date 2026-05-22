@@ -67,7 +67,6 @@ def run_backtest(df_1d, df_15m, tp_pct=0.03, sl_pct=0.01, trailing_mult=3.0):
                 trades.append({'pnl': epnl, 'type': position['type'], 'date': row['date']})
                 position = None
         if not position:
-            # Immediate Entry Logic + MACD Slope Change
              if prev_row['close'] < row['daily_open'] and row['high'] >= row['daily_open'] and row[hist_col] > prev_row[hist_col] and row[hist_col] > 0:
                  position = {'type': 'long', 'entry_price': row['daily_open'], 'sl': row['daily_open']*(1-sl_pct), 'tp': row['daily_open']*(1+tp_pct), 'trailing_sl': row['daily_open']*(1-sl_pct)}
              elif prev_row['close'] > row['daily_open'] and row['low'] <= row['daily_open'] and row[hist_col] < prev_row[hist_col] and row[hist_col] < 0:
